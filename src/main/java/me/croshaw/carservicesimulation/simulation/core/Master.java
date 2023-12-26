@@ -3,7 +3,6 @@ package me.croshaw.carservicesimulation.simulation.core;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import me.croshaw.carservicesimulation.drawers.MasterDrawer;
-import me.croshaw.carservicesimulation.drawers.WorkServicingDrawer;
 import me.croshaw.carservicesimulation.simulation.core.util.DurationHelper;
 
 import java.time.Duration;
@@ -20,7 +19,7 @@ public class Master extends People {
     private float profitShare;
     private final HashMap<LocalDate, ArrayList<WorkServicing>> completedWorkServicingMap;
     private final HashMap<LocalDate, ArrayList<WorkServicing>> droppedWorkServicingMap;
-    private final HashMap<LocalDate, Duration> employementMap;
+    private final HashMap<LocalDate, Duration> employmentMap;
     public Master(String surname, String name, String patronymic, Duration maxServicingDuration, Duration maxWaitingDuration) {
         super(surname, name, patronymic);
         this.maxServicingDuration = maxServicingDuration;
@@ -29,13 +28,7 @@ public class Master extends People {
         this.profitShare = 0;
         completedWorkServicingMap = new HashMap<>();
         droppedWorkServicingMap = new HashMap<>();
-        employementMap = new HashMap<>();
-    }
-    public void setYOffset(double h) {
-        if(isDrawerSetup())
-            drawer.moveByY(h);
-        if(currentTask!=null)
-            currentTask.setYOffset(h);
+        employmentMap = new HashMap<>();
     }
     public boolean isDrawerSetup() {
         return drawer != null;
@@ -81,12 +74,6 @@ public class Master extends People {
     public boolean isFixit() {
         return (drawer == null || drawer.isFixit()) && (currentTask == null || currentTask.isFixit());
     }
-    public void setMinSalary(double value) {
-        minSalary = value;
-    }
-    public void setProfitShare(float value) {
-        profitShare = value;
-    }
     public void setTask(WorkServicing workServicing) {
         currentTask = workServicing;
         if(currentTask != null) {
@@ -115,7 +102,7 @@ public class Master extends People {
         if(currentTask == null)
             return secondsStep;
         long dif = currentTask.service(secondsStep);
-        employementMap.put(date, employementMap.getOrDefault(date, Duration.ZERO).plusSeconds(secondsStep - dif));
+        employmentMap.put(date, employmentMap.getOrDefault(date, Duration.ZERO).plusSeconds(secondsStep - dif));
         if(currentTask.isDone()) {
             if(!completedWorkServicingMap.containsKey(date))
                 completedWorkServicingMap.put(date, new ArrayList<>());
@@ -123,12 +110,6 @@ public class Master extends People {
             currentTask = null;
         }
         return dif;
-    }
-    public HashMap<LocalDate, ArrayList<WorkServicing>> getCompletedWorkServicing() {
-        return completedWorkServicingMap;
-    }
-    public HashMap<LocalDate, ArrayList<WorkServicing>> getDroppedWorkServicing() {
-        return droppedWorkServicingMap;
     }
     public Duration getAverageWaitingDuration() {
         Duration averageWaitingDuration = Duration.ZERO;
@@ -143,14 +124,14 @@ public class Master extends People {
             return Duration.ZERO;
         return averageWaitingDuration.dividedBy(count);
     }
-    public Duration getAverageEmployementDuration() {
+    public Duration getAverageEmploymentDuration() {
         Duration averageEmployementDuration = Duration.ZERO;
-        for(var dur : employementMap.values()) {
+        for(var dur : employmentMap.values()) {
             averageEmployementDuration = averageEmployementDuration.plus(dur);
         }
-        if(employementMap.isEmpty())
+        if(employmentMap.isEmpty())
             return Duration.ZERO;
-        return averageEmployementDuration.dividedBy(employementMap.size());
+        return averageEmployementDuration.dividedBy(employmentMap.size());
     }
     public int getNumberOfCompletedWorkServicing() {
         int count = 0;
@@ -209,7 +190,7 @@ public class Master extends People {
         StringBuilder sb = new StringBuilder();
         sb.append("Мастер: %s\n".formatted(super.toShortString()));
         sb.append("Среднее время ожидания: %s\n".formatted(DurationHelper.toString(getAverageWaitingDuration())));
-        sb.append("Среднее время работы: %s\n".formatted(DurationHelper.toString(getAverageEmployementDuration())));
+        sb.append("Среднее время работы: %s\n".formatted(DurationHelper.toString(getAverageEmploymentDuration())));
         sb.append("Кол-во предоставленных услуг: %d\n".formatted(getNumberOfCompletedWorkServicing()));
         sb.append("Кол-во отменённых услуг: %d\n".formatted(getNumberOfDroppedWorkServicing()));
         sb.append("Принесённая прибыль: %.2f\n".formatted(getTotalProfit()));

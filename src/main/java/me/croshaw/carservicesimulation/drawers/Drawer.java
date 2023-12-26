@@ -9,7 +9,6 @@ import javafx.scene.text.Font;
 import me.croshaw.carservicesimulation.simulation.core.util.Pair;
 
 import java.util.ArrayDeque;
-import java.util.LinkedList;
 
 public class Drawer<T> {
     protected transient T source;
@@ -99,7 +98,7 @@ public class Drawer<T> {
     public double getSpeed() {
         return speed;
     }
-    public static void drawTextOnBackground(GraphicsContext g, double x, double y,Color foreColor, Color background, String text) {
+    public static void drawTextOnBackground(GraphicsContext g, double x, double y,Paint foreColor, Paint background, String text) {
         double xx = x + 10;
         double yy = y + 10;
 

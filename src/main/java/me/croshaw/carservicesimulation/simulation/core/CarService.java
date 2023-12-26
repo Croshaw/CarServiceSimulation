@@ -2,13 +2,16 @@ package me.croshaw.carservicesimulation.simulation.core;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import me.croshaw.carservicesimulation.drawers.CarServiceDrawer;
+import me.croshaw.carservicesimulation.drawers.Drawer;
 import me.croshaw.carservicesimulation.simulation.core.service.Service;
 import me.croshaw.carservicesimulation.simulation.core.util.CreatedInfo;
 import me.croshaw.carservicesimulation.simulation.core.util.DurationHelper;
 import me.croshaw.carservicesimulation.simulation.core.util.Pair;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +47,7 @@ public class CarService extends CreatedInfo {
         workSchedule.put(DayOfWeek.THURSDAY, new Pair<>(LocalTime.of(9, 0, 0), Duration.ofHours(8)));
         workSchedule.put(DayOfWeek.FRIDAY, new Pair<>(LocalTime.of(9, 0, 0), Duration.ofHours(8)));
         workSchedule.put(DayOfWeek.SATURDAY, new Pair<>(LocalTime.of(10, 0, 0), Duration.ofHours(6)));
+        workSchedule.put(DayOfWeek.SUNDAY, new Pair<>(LocalTime.of(10, 0, 0), Duration.ofHours(6)));
         queue = new HashSet<>();
         completedRequestsMap = new HashMap<>();
         dropRequestsMap = new HashMap<>();
@@ -62,11 +66,6 @@ public class CarService extends CreatedInfo {
         if(isDrawerSetup())
             return drawer.getSpeed();
         return 0;
-    }
-    public void setYOffset(double h) {
-        if(isDrawerSetup())
-            drawer.moveByY(h);
-        workshops.forEach(x->x.setYOffset(h));
     }
     public boolean isDrawerSetup() {
         return drawer != null;
@@ -102,6 +101,9 @@ public class CarService extends CreatedInfo {
     public void draw(GraphicsContext g) {
         if(drawer != null){
             drawer.draw(g);
+            Drawer.drawTextOnBackground(g, drawer.getX() + 5, drawer.getY() + drawer.getHeight(), Color.BLACK, drawer.getColor(), "Длительность: %s".formatted(DurationHelper.toString(currentLifeDuration)));
+            Drawer.drawTextOnBackground(g, drawer.getX() + 5, drawer.getY() + drawer.getHeight()-20, Color.BLACK, drawer.getColor(), "Текущая дата: %s".formatted(getCurrentDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
+            Drawer.drawTextOnBackground(g, drawer.getX() + 5, drawer.getY() + drawer.getHeight()-70, Color.BLACK, drawer.getColor(), "Дата создания: %s".formatted(getDateOfCreation().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))));
         }
         workshops.forEach(w -> w.draw(g));
     }
@@ -129,7 +131,6 @@ public class CarService extends CreatedInfo {
         }
         return (drawer == null || drawer.isFixit()) && res;
     }
-
     public Workshop registerService(Service service) {
         if(services.add(service)) {
             Workshop workshop = new Workshop(service, service.getName(), getCurrentDateTime(), maxServicingDuration, maxWaitingDuration, minSalary, profitShare);
@@ -186,6 +187,8 @@ public class CarService extends CreatedInfo {
                 completedRequestsMap.get(getCurrentDate()).add(request);
             }
         }
+        if(!completedRequestsMap.containsKey(getCurrentDate()))
+            return;
         for(var request : completedRequestsMap.get(getCurrentDate())) {
             queue.remove(request);
         }
@@ -194,7 +197,9 @@ public class CarService extends CreatedInfo {
         LocalDateTime prevDateTime = getCurrentDateTime();
         currentLifeDuration = currentLifeDuration.plusSeconds(secondsStep);
         LocalDateTime curDateTime = getCurrentDateTime();
+        queue.forEach(q -> q.waiting(secondsStep));
         checkToDrop();
+        checkToComplete();
         if(isWork(prevDateTime) && isWork(curDateTime)) {
             workshops.forEach(x-> x.life(secondsStep, true));
         } else if(isWork(prevDateTime) && !isWork(curDateTime)) {
@@ -354,7 +359,6 @@ public class CarService extends CreatedInfo {
         var tempSchedule = workSchedule.get(dateTime.getDayOfWeek());
         return dateTime.toLocalTime().isAfter(tempSchedule.getFirst()) && dateTime.toLocalTime().isBefore(tempSchedule.getFirst().plus(tempSchedule.getSecond()));
     }
-    //!Дописать
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

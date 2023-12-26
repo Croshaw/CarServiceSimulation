@@ -46,14 +46,6 @@ public class Workshop extends CreatedInfo {
         coordinatesForMasters = new LinkedList<>();
         coordinatesForWorkServicing = new LinkedList<>();
     }
-    public void setYOffset(double h) {
-        setupMasterCoordinates(drawer.getX(), drawer.getY() + h);
-        setupWorkServicingCoordinates(drawer.getX(), drawer.getY() + h);
-        if(isDrawerSetup())
-            drawer.moveByY(h);
-        queue.forEach(x-> x.setYOffset(h));
-        masters.forEach(x-> x.setYOffset(h));
-    }
     public boolean isDrawerSetup() {
         return drawer != null;
     }
@@ -274,7 +266,7 @@ public class Workshop extends CreatedInfo {
     }
     public void life(long secondsStep, boolean isWork) {
         if(isWork) {
-            queue.forEach(x -> x.waiting(secondsStep));
+            //queue.forEach(x -> x.waiting(secondsStep));
             work(secondsStep);
         }
         currentLifeDuration = currentLifeDuration.plusSeconds(secondsStep);
@@ -293,7 +285,7 @@ public class Workshop extends CreatedInfo {
     public Duration getAverageEmployementDuration() {
         Duration avg = Duration.ZERO;
         for(var master : masters)
-            avg = avg.plus(master.getAverageEmployementDuration());
+            avg = avg.plus(master.getAverageEmploymentDuration());
         if(masters.isEmpty())
             return Duration.ZERO;
         return avg.dividedBy(masters.size());

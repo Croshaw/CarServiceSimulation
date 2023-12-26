@@ -78,12 +78,9 @@ public class WorkServicing extends CreatedInfo {
         }
         return 0;
     }
-    public void setYOffset(double h) {
-        if(isDrawerSetup())
-            drawer.moveByY(h);
-    }
     public void waiting(long secondsStep) {
-        waitingDuration = waitingDuration.plusSeconds(secondsStep);
+        if(isWaiting())
+            waitingDuration = waitingDuration.plusSeconds(secondsStep);
     }
     public double getPrice() {
         return service.getPrice();

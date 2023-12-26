@@ -1,16 +1,16 @@
-package me.croshaw.carservicesimulation.simulation.core;
+    package me.croshaw.carservicesimulation.simulation.core;
 
-import me.croshaw.carservicesimulation.simulation.core.service.Service;
-import me.croshaw.carservicesimulation.simulation.core.util.CreatedInfo;
-import me.croshaw.carservicesimulation.simulation.core.util.DurationHelper;
+    import me.croshaw.carservicesimulation.simulation.core.service.Service;
+    import me.croshaw.carservicesimulation.simulation.core.util.CreatedInfo;
+    import me.croshaw.carservicesimulation.simulation.core.util.DurationHelper;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Random;
+    import java.time.Duration;
+    import java.time.LocalDateTime;
+    import java.time.format.DateTimeFormatter;
+    import java.util.ArrayList;
+    import java.util.Random;
 
-public class Request extends CreatedInfo {
+    public class Request extends CreatedInfo {
     private final ArrayList<WorkServicing> workServicingList;
     private final Car car;
     public Request(LocalDateTime dateTimeOfCreation, Car car) {
@@ -24,6 +24,9 @@ public class Request extends CreatedInfo {
     public boolean addWorkServicing(Service service, Random random) {
         return !isServiceAlreadyExists(service) && workServicingList.add(new WorkServicing(getDateTimeOfCreation(), service, car, Service.getRandomDurationOfService(service, random)));
     }
+    public boolean addWorkServicing(WorkServicing workServicing) {
+        return workServicingList.add(workServicing);
+    }
     public void waiting(long secondsStep) {
         workServicingList.forEach(x-> {
             if(x.isWaiting())
@@ -36,9 +39,6 @@ public class Request extends CreatedInfo {
                 return true;
         }
         return false;
-    }
-    public boolean addWorkServicing(WorkServicing workServicing) {
-        return workServicingList.add(workServicing);
     }
     public WorkServicing removeWorkServicing(int id) {
         return workServicingList.remove(id);
@@ -94,4 +94,4 @@ public class Request extends CreatedInfo {
         sb.append(isDone() ? "Завершена" : "На обслуживании");
         return sb.toString();
     }
-}
+    }
