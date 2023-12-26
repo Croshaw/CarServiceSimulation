@@ -1,4 +1,4 @@
-package me.croshaw.carservicesimulation.simulation.base.util;
+package me.croshaw.carservicesimulation.simulation.core.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

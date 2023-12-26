@@ -1,6 +1,6 @@
-package me.croshaw.carservicesimulation.simulation.base.service;
+package me.croshaw.carservicesimulation.simulation.core.service;
 
-import me.croshaw.carservicesimulation.simulation.base.util.ValueRange;
+import me.croshaw.carservicesimulation.simulation.core.util.ValueRange;
 
 import java.time.Duration;
 

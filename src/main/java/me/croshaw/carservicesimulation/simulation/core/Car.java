@@ -1,4 +1,4 @@
-package me.croshaw.carservicesimulation.simulation.base;
+package me.croshaw.carservicesimulation.simulation.core;
 
 public class Car {
     private final Brand brand;

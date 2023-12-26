@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.croshaw.carservicesimulation.CreateController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Сид:" wrapText="true" />
+                  <TextField fx:id="seed" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Длительность симуляции:" wrapText="true" />
+                  <TextField fx:id="durationSimulation" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="79.0" spacing="5.0">
+               <children>
+                  <Label text="Ед. измерения:" />
+                  <ComboBox fx:id="durationSimUNIT" prefHeight="22.0" prefWidth="80.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Максимальная длительность обслуживания заявки:" wrapText="true" />
+                  <TextField fx:id="maxDurationService" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="79.0" spacing="5.0">
+               <children>
+                  <Label text="Ед. измерения:" />
+                  <ComboBox fx:id="maxServiceDurUNIT" prefHeight="22.0" prefWidth="80.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Максимальная длительность ожидания заявки:" wrapText="true" />
+                  <TextField fx:id="maxDurationWaiting" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="79.0" spacing="5.0">
+               <children>
+                  <Label text="Ед. измерения:" />
+                  <ComboBox fx:id="maxWaitDurUNIT" prefHeight="22.0" prefWidth="80.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="195.0" spacing="5.0">
+               <children>
+                  <Label prefHeight="14.0" prefWidth="180.0" text="Интервал распределения заявок:" wrapText="true" />
+                  <TextField fx:id="requestDistributionFrom" prefHeight="22.0" prefWidth="107.0" promptText="От" />
+                  <TextField fx:id="requestDistributionTo" prefHeight="22.0" prefWidth="107.0" promptText="До" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="79.0" spacing="5.0">
+               <children>
+                  <Label text="Ед. измерения:" />
+                  <ComboBox fx:id="fromUnit" prefHeight="22.0" prefWidth="80.0" />
+                  <ComboBox fx:id="toUnit" prefHeight="22.0" prefWidth="80.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Минимальная зарплата сотрудников в день:" wrapText="true" />
+                  <TextField fx:id="minSalary" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="79.0" prefWidth="592.0" spacing="20.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="147.0" spacing="5.0">
+               <children>
+                  <Label text="Процент от приносимой прибыли:" wrapText="true" />
+                  <TextField fx:id="profitShare" prefHeight="22.0" prefWidth="107.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="73.0" prefWidth="363.0" spacing="30.0">
+         <children>
+            <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" prefHeight="22.0" prefWidth="94.0" text="Создать" />
+            <Button mnemonicParsing="false" onAction="#onDefSettingsButtonClick" prefHeight="22.0" prefWidth="22.0" text="*" />
+            <Button mnemonicParsing="false" onAction="#onCancelButtonClick" prefHeight="22.0" prefWidth="90.0" text="Отмена" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

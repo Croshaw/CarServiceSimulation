@@ -1,4 +1,4 @@
-package me.croshaw.carservicesimulation.simulation.base;
+package me.croshaw.carservicesimulation.simulation.core;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,5 +24,13 @@ public class Brand {
         if(models.isEmpty())
             return null;
         return models.get(random.nextInt(0, models.size()));
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "name='" + name + '\'' +
+                ", models=" + models +
+                '}';
     }
 }

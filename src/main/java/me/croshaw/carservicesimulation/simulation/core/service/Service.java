@@ -1,8 +1,9 @@
-package me.croshaw.carservicesimulation.simulation.base.service;
+package me.croshaw.carservicesimulation.simulation.core.service;
 
-import me.croshaw.carservicesimulation.simulation.base.util.ValueRange;
+import me.croshaw.carservicesimulation.simulation.core.util.ValueRange;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class Service {
     private final String name;
@@ -21,11 +22,14 @@ public class Service {
     public Duration getAverageDurationOfService() {
         return averageDurationOfService;
     }
-    public ValueRange getOffsetServicingRange() {
+    public ValueRange<Long> getOffsetServicingRange() {
         return offsetServicingRange;
     }
     public double getPrice() {
         return price;
+    }
+    public static Duration getRandomDurationOfService(Service service, Random random) {
+        return service.getAverageDurationOfService().plusSeconds(service.getOffsetServicingRange().getRandomValueFromRange(random));
     }
     @Override
     public String toString() {
